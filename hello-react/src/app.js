@@ -1,83 +1,104 @@
-// 1.Yöntem => React - CDN (eksik araçlar) - Babel
-// 2.Yöntem => create-react-app
 var root = ReactDOM.createRoot(document.getElementById("root"));
 
 var products = [
-    {   
-        id: 1,
-        name : "Iphone 15 Pro MAX",
-        price : 50000
-        
+    {
+        name: "iphone 15",
+        price: 50000
     },
     {
-        id: 2,
-        name : "Iphone 13 ",
-        price : 30000
+        name: "iphone 16",
+        price: 60000
     },
     {
-        id: 3,
-        name : "Iphone 11",
-        price : 20000
+        name: "iphone 17",
+        price: 60000
+    }
+    ,
+    {
+        name: "iphone 18",
+        price: 70000
     }
 ]
+
 var selectedProducts = [];
 
+function selectProduct(event, p_name) {
+    console.log(event.target, p_name);
+    if (!selectedProducts.includes(p_name)){
+        selectedProducts.push(p_name);
+    } 
+    renderApp();
+}
 
-function selectProduct(event , p_name){
-    console.log(event.target , p_name);
-    if(!selectedProducts.includes(p_name)){
-        selectedProducts.push(p_name)
-    }
-    renderPage();
-
-} 
-
-function saveProduct(event){
+function saveProduct(event) {
     event.preventDefault();
     var p_name = event.target.elements.p_name.value;
-    var p_price = event.target.elements.p_price.value;
+    var p_price = event.target.elements.p_price.value
     var product = {
         name: p_name,
         price: p_price
-    };
+    }
     products.push(product);
-    renderPage();
-
+    event.target.elements.p_name.value = "";
+    event.target.elements.p_price.value = "";
+    renderApp();
 }
 
+class Header extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1 id="header">Ürün Listesi</h1>
+                <h3>Seçilen Ürünler: { selectedProducts.length }</h3>
+            </div>
+        );
+    }
+}
 
-function renderPage(){
-    var template = 
-    <div>
-        <h1 id="header">TechStore</h1>
-        <form onSubmit={saveProduct}>
-            <input type="text" name="p_name"/>
-            <input type="text" name="p_price" />
-            <button type="submit">Add</button>
-        </form>
-        <h2>Added Products: {selectedProducts.length}</h2>
-        <p>Product List:</p>
-        {
-            products.map((product,index) =>(
-                <div className="product-details" key={index}>
-               
-                {  <h2>{product.name}</h2>}
-                {product.price}
-                <button type="button" id={index} onClick={(event) => selectProduct(event, product.name)}>Select </button>
-                
-        </div>
+class NewProduct extends React.Component {
+    render() {
+        return (
+            <form onSubmit={saveProduct}>
+                <input type="text" name="p_name" id="p_name" />
+                <input type="text" name="p_price" id="p_price" />
+                <button type="submit">Ürün Ekle</button>
+            </form>
+        );
+    }
+}
+
+class ProductList extends React.Component {
+    render() {
+        return (
+            this.props.products.map((product,index) => (
+                <Product product={product} key={index}/>
             ))
-        }
-        
-        
-    </div>; 
-
-    root.render(template);
-
+        );
+    }
 }
 
-renderPage();
+class Product extends React.Component {
+    render() {
+        return (
+            <div className="product-details">
+                { <h2> { this.props.product.name } </h2>}
+                { this.props.product.price }
+                <button type="button" onClick={(event) => selectProduct(event, this.props.product.name)}>Ekle</button>
+            </div>
+        );
+    }
+}
 
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header />
+                <NewProduct />        
+                <ProductList products={products} />   
+            </div>
+        );
+    }
+}
 
-
-
+root.render(<App />);
