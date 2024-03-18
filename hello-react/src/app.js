@@ -6,16 +6,16 @@ var products = [
         price: 50000
     },
     {
-        name: "iphone 16",
+        name: "Iphone 16",
         price: 60000
     },
     {
-        name: "iphone 17",
+        name: "Iphone 17",
         price: 60000
     }
     ,
     {
-        name: "iphone 18",
+        name: "Iphone 18",
         price: 70000
     }
 ]
@@ -48,8 +48,8 @@ class Header extends React.Component {
     render() {
         return (
             <div>
-                <h1 id="header">Ürün Listesi</h1>
-                <h3>Seçilen Ürünler: { selectedProducts.length }</h3>
+                <h1 id="header">Product List</h1>
+                <h3>Selected Products: { selectedProducts.length }</h3>
             </div>
         );
     }
@@ -61,7 +61,7 @@ class NewProduct extends React.Component {
             <form onSubmit={saveProduct}>
                 <input type="text" name="p_name" id="p_name" />
                 <input type="text" name="p_price" id="p_price" />
-                <button type="submit">Ürün Ekle</button>
+                <button type="submit">Add</button>
             </form>
         );
     }
@@ -83,7 +83,7 @@ class Product extends React.Component {
             <div className="product-details">
                 { <h2> { this.props.product.name } </h2>}
                 { this.props.product.price }
-                <button type="button" onClick={(event) => selectProduct(event, this.props.product.name)}>Ekle</button>
+                <button type="button" onClick={(event) => selectProduct(event, this.props.product.name)}>Select</button>
             </div>
         );
     }
